@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon.png">
+<title>Samuella Cartwhels — Silly Cartwheels You Can Trust</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;700;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #c8f542;
+    --pink: #ff4d8b;
+    --navy: #0d1b4b;
+    --sky: #b3f0ff;
+    --orange: #ff8c00;
+    --white: #fffdf5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    font-family: 'Nunito', sans-serif;
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ── MARQUEE HEADER BAR ── */
+  .ticker {
+    background: #000;
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    padding: 8px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+  }
+  .ticker-inner span { margin: 0 2.5rem; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 6vw;
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.7rem;
+    color: var(--lime);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--pink); }
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 2rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--lime); }
+  .nav-cta {
+    background: var(--lime) !important;
+    color: var(--navy) !important;
+    padding: 0.45rem 1.1rem;
+    border-radius: 30px;
+    font-weight: 900 !important;
+  }
+  .nav-cta:hover { background: var(--orange) !important; color: #fff !important; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 6rem 6vw 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -120px;
+    bottom: -120px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--pink) 0%, transparent 70%);
+    opacity: 0.25;
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--pink);
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 30px;
+    margin-bottom: 1.2rem;
+    animation: pop 0.5s 0.2s both;
+  }
+  .hero h1 {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    animation: slideUp 0.6s 0.3s both;
+  }
+  .hero h1 em {
+    color: var(--lime);
+    font-style: normal;
+    display: block;
+  }
+  .hero p {
+    color: #c8d8f0;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    max-width: 460px;
+    margin-bottom: 2rem;
+    animation: slideUp 0.6s 0.5s both;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: slideUp 0.6s 0.7s both;
+  }
+  .btn-primary {
+    background: var(--lime);
+    color: var(--navy);
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 4px 4px 0 var(--orange);
+  }
+  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--orange); }
+  .btn-secondary {
+    background: transparent;
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--lime); color: var(--lime); }
+
+  /* HERO ILLUSTRATION */
+  .hero-art {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: floatArt 3s ease-in-out infinite;
+  }
+  @keyframes floatArt {
+    0%,100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-18px) rotate(2deg); }
+  }
+  .hero-art svg { max-width: 340px; width: 100%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+
+  /* ── DEAL BANNER ── */
+  .deal {
+    background: var(--lime);
+    padding: 3.5rem 6vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+  .deal::before {
+    content: '★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★';
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(13,27,75,0.2);
+    letter-spacing: 0.4em;
+  }
+  .deal-badge {
+    background: var(--navy);
+    color: var(--lime);
+    font-family: 'Boogaloo', cursive;
+    font-size: 3.5rem;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 0 8px 30px rgba(13,27,75,0.25);
+    flex-shrink: 0;
+    animation: spin-badge 6s linear infinite;
+  }
+  .deal-badge small { font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700; color: #fff; }
+  @keyframes spin-badge {
+    0%,90% { transform: rotate(0deg); }
+    95% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+  }
+  .deal-text h2 {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .deal-text p {
+    font-size: 1.05rem;
+    color: #1a2e6e;
+    margin-top: 0.5rem;
+    max-width: 400px;
+  }
+  .deal-text strong { color: var(--navy); font-weight: 900; }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 5rem 6vw; }
+  .section-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--navy);
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+  }
+  .section-sub {
+    font-size: 1.05rem;
+    color: #4a5580;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* ── VIDEOS ── */
+  .videos { background: var(--sky); }
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .video-card {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(13,27,75,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .video-card:hover { transform: translateY(-6px) rotate(-0.5deg); box-shadow: 0 12px 30px rgba(13,27,75,0.18); }
+  .video-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    overflow: hidden;
+  }
+  .thumb-1 { background: linear-gradient(135deg,#ffd6e7,#ffb3cc); }
+  .thumb-2 { background: linear-gradient(135deg,#d6f5ff,#a3e8ff); }
+  .thumb-3 { background: linear-gradient(135deg,#e8ffd6,#c8f296); }
+  .thumb-4 { background: linear-gradient(135deg,#fff0d6,#ffd98c); }
+  .thumb-5 { background: linear-gradient(135deg,#eed6ff,#d4a3ff); }
+  .thumb-6 { background: linear-gradient(135deg,#ffd6d6,#ff9e9e); }
+  .play-btn {
+    position: absolute;
+    width: 52px; height: 52px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    transition: transform 0.15s;
+  }
+  .video-card:hover .play-btn { transform: scale(1.1); }
+  .video-info { padding: 1rem 1.1rem 1.2rem; }
+  .video-info h4 { font-family: 'Fredoka One', cursive; font-size: 1.05rem; color: var(--navy); margin-bottom: 0.25rem; }
+  .video-info span { font-size: 0.83rem; color: #7a86b0; font-weight: 700; }
+  .free-tag {
+    display: inline-block;
+    background: var(--lime);
+    color: var(--navy);
+    font-weight: 900;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 8px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps { background: #fff; }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+  .step-card {
+    position: relative;
+    padding: 2rem 1.5rem 1.8rem;
+    border-radius: 20px;
+    border: 2.5px solid #e6e8f5;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .step-card:hover { border-color: var(--pink); transform: translateY(-4px); }
+  .step-num {
+    font-family: 'Boogaloo', cursive;
+    font-size: 4rem;
+    color: var(--lime);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+    -webkit-text-stroke: 2px var(--navy);
+  }
+  .step-card h3 { font-family: 'Fredoka One', cursive; font-size: 1.15rem; color: var(--navy); margin-bottom: 0.5rem; }
+  .step-card p { font-size: 0.92rem; color: #5a6490; line-height: 1.6; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--navy); }
+  .testimonials .section-title { color: #fff; }
+  .testimonials .section-sub { color: #8ca0d0; }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .testi-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 1.8rem;
+    transition: background 0.2s;
+  }
+  .testi-card:hover { background: rgba(255,255,255,0.13); }
+  .stars { color: var(--orange); font-size: 1rem; margin-bottom: 0.8rem; letter-spacing: 2px; }
+  .testi-card p { color: #c8d6f0; font-size: 0.97rem; line-height: 1.7; font-style: italic; margin-bottom: 1.2rem; }
+  .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--navy);
+    flex-shrink: 0;
+  }
+  .av1 { background: var(--lime); }
+  .av2 { background: var(--pink); color: #fff; }
+  .av3 { background: var(--sky); }
+  .testi-name { font-weight: 700; color: #fff; font-size: 0.9rem; }
+  .testi-role { font-size: 0.8rem; color: #7a90c0; }
+
+  /* ── BOOK CTA ── */
+  .book-cta {
+    background: var(--pink);
+    padding: 6rem 6vw;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .book-cta::before {
+    content: '🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸 🤸';
+    position: absolute;
+    top: 12px;
+    left: 0; right: 0;
+    font-size: 1.5rem;
+    letter-spacing: 1.2rem;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .book-cta h2 {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .book-cta p { color: rgba(255,255,255,0.85); font-size: 1.15rem; margin-bottom: 2rem; }
+  .book-cta .btn-primary { background: #fff; color: var(--pink); box-shadow: 4px 4px 0 var(--navy); font-size: 1.2rem; padding: 1rem 2.5rem; }
+  .book-cta .btn-primary:hover { box-shadow: 7px 7px 0 var(--navy); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 3px solid var(--lime);
+    padding: 2.5rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer .logo { font-family: 'Boogaloo', cursive; font-size: 1.4rem; color: var(--lime); }
+  footer p { color: #6a7ab0; font-size: 0.85rem; }
+  footer p span { color: var(--pink); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes pop { from { opacity:0; transform:scale(0.7); } to { opacity:1; transform:scale(1); } }
+  @keyframes slideUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; text-align: center; }
+    .hero p { margin-inline: auto; }
+    .hero-btns { justify-content: center; }
+    .hero-art { order: -1; }
+    .nav-links { display: none; }
+    .deal { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker" aria-label="Promotion banner">
+  <div class="ticker-inner">
+    <span>🤸 Nothing beats a Samuella Cartwhele!</span>
+    <span>💰 Save £10 on your Cartwhele today</span>
+    <span>🎉 £800 off for all of Year 6</span>
+    <span>🎬 Free cartwheels available to watch</span>
+    <span>📚 Step-by-step tutorials included</span>
+    <span>🤸 Nothing beats a Samuella Cartwhele!</span>
+    <span>💰 Save £10 on your Cartwhele today</span>
+    <span>🎉 £800 off for all of Year 6</span>
+    <span>🎬 Free cartwheels available to watch</span>
+    <span>📚 Step-by-step tutorials included</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo" style="text-decoration:none;">Samuella <span>Cartwhels</span></a>
+  <div class="nav-links"><a href="index.html">← Samuella Inc</a>
+    <a href="#videos">Free Videos</a>
+    <a href="#how">How It Works</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#" class="nav-cta" onclick="openModal(); return false;">Book Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-tag">🤸 Silly Cartwheels You Can Trust</div>
+    <h1>Nothing beats a <em>Samuella Cartwhele.</em></h1>
+    <p>The original, the goofiest, the most trustworthy cartwheel experience in the business. Book now and tumble your way to pure joy.</p>
+    <div class="hero-btns">
+      <a href="#book" class="btn-primary">Book Now — Save £10</a>
+      <a href="#videos" class="btn-secondary">Watch Free Videos ▶</a>
+    </div>
+  </div>
+  <div class="hero-art">
+    <img src="Samuella3-removebg-preview.png" alt="Samuella smiling" style="max-width:340px; width:100%; filter:drop-shadow(0 20px 40px rgba(0,0,0,0.5));">
+  </div>
+</section>
+
+<!-- DEAL BANNER -->
+<div class="deal">
+  <div class="deal-badge">
+    £10<br><small>OFF</small>
+  </div>
+  <div class="deal-text">
+    <h2>Save £10 on a Cartwhele — right now!</h2>
+    <p>And for all of <strong>Year 6</strong>: that's a whopping <strong>£800 off</strong>. Yes, eight hundred pounds. Get tumbling before this deal disappears!</p>
+  </div>
+  <a href="#book" class="btn-primary" style="flex-shrink:0;">Grab the Deal →</a>
+</div>
+
+<!-- FREE VIDEOS -->
+<section class="videos" id="videos">
+  <div class="section-label">🎬 Free to Watch</div>
+  <h2 class="section-title">Loads of free cartwheels,<br>ready to roll</h2>
+  <p class="section-sub">Watch, learn, laugh. We've got a whole library of free cartwheel videos — plus step-by-step tutorials included with every booking.</p>
+  <div class="video-grid">
+    <div class="video-card">
+      <div class="video-thumb thumb-1"><span>🤸‍♀️</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>The Classic Samuella Cartwhele</h4><span>Beginner · 4 min</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb thumb-2"><span>🌀</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>Sideways is the Right Ways</h4><span>Beginner · 3 min</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb thumb-3"><span>💪</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>Building Your Cartwhele Confidence</h4><span>Intermediate · 7 min</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb thumb-4"><span>⭐</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>The Silly Variation™</h4><span>All levels · 5 min</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb thumb-5"><span>🎉</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>Party Cartwhele Moves</h4><span>Intermediate · 6 min</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb thumb-6"><span>🏅</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>Year 6 Special Edition</h4><span>Advanced · 9 min</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb" style="background: linear-gradient(135deg,#d6ffee,#7fffd4);"><span>🔢</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>The World Math Day Special</h4><span>All levels · Free to watch</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb" style="background: linear-gradient(135deg,#f5d6ff,#e8a3ff);"><span>✨</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>The Lush Life Cartwheel</h4><span>All levels · Free to watch</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb" style="background: linear-gradient(135deg,#ffe8d6,#ffb347);"><span>💃</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>The Macarena Cartwheel</h4><span>All levels · Free to watch</span><span class="free-tag">FREE</span></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb" style="background: linear-gradient(135deg,#d6f0ff,#57c7ff);"><span>🏖️</span><div class="play-btn">▶</div></div>
+      <div class="video-info"><h4>Party at the Beach Cartwheel</h4><span>All levels · Free to watch</span><span class="free-tag">FREE</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps" id="how">
+  <div class="section-label">📚 How It Works</div>
+  <h2 class="section-title">Step-by-step tutorials included</h2>
+  <p class="section-sub">Every booking comes with our famous Samuella Method™ — a no-nonsense, very-silly guide to doing cartwheels properly.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <h3>Book Your Spot</h3>
+      <p>Pick a session, grab the Year 6 deal, and lock in your £10 saving before it's gone.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <h3>Watch Free Videos</h3>
+      <p>Browse our ever-growing free library. Get inspired. Maybe do a little spin in your living room.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <h3>Follow the Tutorials</h3>
+      <p>Step-by-step instructions that even Samuella's gran could follow. (She's tried. It was glorious.)</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <h3>Do the Cartwhele</h3>
+      <p>Arms out, commit to the spin, land on your feet. Cry tears of joy. Repeat forever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="reviews">
+  <div class="section-label" style="color:var(--lime)">💬 Reviews</div>
+  <h2 class="section-title">People are spinning with happiness</h2>
+  <p class="section-sub">Don't take our word for it. Hear from real Samuella Cartwhels customers.</p>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p>"I tried seven other cartwheel services before Samuella. Nothing even comes close. The tutorials are brilliant and the £800 Year 6 deal is absolutely wild value."</p>
+      <div class="testi-author">
+        <div class="avatar av1">J</div>
+        <div><div class="testi-name">Jamie T.</div><div class="testi-role">Year 6 Parent, Bristol</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p>"Nothing beats a Samuella Cartwhele — I didn't believe it until I tried one. Now I do them in car parks, at weddings, everywhere. Thank you Samuella."</p>
+      <div class="testi-author">
+        <div class="avatar av2">P</div>
+        <div><div class="testi-name">Priya K.</div><div class="testi-role">Enthusiast, Edinburgh</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p>"The free videos alone are worth everything. I haven't even booked yet and my cartwheels have improved 300%. Silly cartwheels you can truly, genuinely trust."</p>
+      <div class="testi-author">
+        <div class="avatar av3">M</div>
+        <div><div class="testi-name">Marcus W.</div><div class="testi-role">PE Teacher, Leeds</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEET SAMUELLA -->
+<section style="background:#fff; padding:5rem 6vw;">
+  <div class="section-label">👋 Meet Samuella</div>
+  <h2 class="section-title">The one and only Samuella</h2>
+  <p class="section-sub">Silly cartwheels, big smiles, and moves you can trust. Meet the face behind Samuella Cartwhels!</p>
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:2rem; max-width:900px;">
+    <div style="border-radius:24px; overflow:hidden; box-shadow:0 8px 30px rgba(13,27,75,0.12); border:3px solid var(--lime); transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-6px) rotate(-1deg)'" onmouseout="this.style.transform=''">
+      <img src="Samuella1.png" alt="Samuella ready to cartwheel" style="width:100%; display:block; object-fit:cover;">
+    </div>
+    <div style="border-radius:24px; overflow:hidden; box-shadow:0 8px 30px rgba(13,27,75,0.12); border:3px solid var(--pink); transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-6px) rotate(1deg)'" onmouseout="this.style.transform=''">
+      <img src="Samuella3-removebg-preview.png" alt="Samuella smiling" style="width:100%; display:block; object-fit:cover;">
+    </div>
+    <div style="border-radius:24px; overflow:hidden; box-shadow:0 8px 30px rgba(13,27,75,0.12); border:3px solid var(--orange); transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-6px) rotate(-1deg)'" onmouseout="this.style.transform=''">
+      <img src="Samuella3.png" alt="Samuella smiling" style="width:100%; display:block; object-fit:cover;">
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING MODAL -->
+<div id="booking-modal" style="display:none; position:fixed; inset:0; z-index:1000; align-items:center; justify-content:center; padding:1rem;">
+  <div onclick="closeModal()" style="position:absolute; inset:0; background:rgba(13,27,75,0.75);"></div>
+  <div style="position:relative; background:#fff; border-radius:24px; padding:2.5rem 2rem; max-width:440px; width:100%; box-shadow:0 30px 80px rgba(0,0,0,0.35); border-top:6px solid #ff4d8b;">
+    <button onclick="closeModal()" style="position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:1.8rem;cursor:pointer;color:#aaa;line-height:1;">&times;</button>
+
+    <div id="form-success" style="display:none; text-align:center; padding:2rem 0;">
+      <div style="font-size:3rem;">&#127881;</div>
+      <h4 style="font-family:Boogaloo,cursive; font-size:1.8rem; color:#0d1b4b; margin:0.5rem 0;">You are booked in!</h4>
+      <p style="color:#6a7ab0;">We have received your details and will be in touch soon.</p>
+      <button onclick="closeModal()" style="margin-top:1.2rem; background:#ff4d8b; color:#fff; border:none; border-radius:50px; padding:0.7rem 1.8rem; font-family:Fredoka One,cursive; font-size:1rem; cursor:pointer;">Close</button>
+    </div>
+
+    <div id="form-wrap">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <div style="font-size:2.2rem;">&#129336;</div>
+        <h3 style="font-family:Boogaloo,cursive; font-size:1.9rem; color:#0d1b4b; margin:0.3rem 0;">Book Your Cartwhele</h3>
+        <p style="color:#6a7ab0; font-size:0.9rem;">Fill in your details and we will be in touch!</p>
+      </div>
+
+      <div style="margin-bottom:1rem;">
+        <label style="display:block; font-weight:800; font-size:0.82rem; color:#0d1b4b; margin-bottom:0.3rem; letter-spacing:0.05em;">YOUR NAME</label>
+        <input id="f-name" type="text" placeholder="e.g. Jamie Smith" style="width:100%; padding:0.75rem 1rem; border:2px solid #e0e4f5; border-radius:12px; font-size:1rem; font-family:Nunito,sans-serif; box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label style="display:block; font-weight:800; font-size:0.82rem; color:#0d1b4b; margin-bottom:0.3rem; letter-spacing:0.05em;">EMAIL ADDRESS</label>
+        <input id="f-email" type="email" placeholder="e.g. jamie@example.com" style="width:100%; padding:0.75rem 1rem; border:2px solid #e0e4f5; border-radius:12px; font-size:1rem; font-family:Nunito,sans-serif; box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label style="display:block; font-weight:800; font-size:0.82rem; color:#0d1b4b; margin-bottom:0.3rem; letter-spacing:0.05em;">PHONE NUMBER</label>
+        <input id="f-phone" type="tel" placeholder="e.g. 07700 900000" style="width:100%; padding:0.75rem 1rem; border:2px solid #e0e4f5; border-radius:12px; font-size:1rem; font-family:Nunito,sans-serif; box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <label style="display:block; font-weight:800; font-size:0.82rem; color:#0d1b4b; margin-bottom:0.3rem; letter-spacing:0.05em;">WHICH CARTWHEEL DO YOU WANT?</label>
+        <select id="f-cartwheel" style="width:100%; padding:0.75rem 1rem; border:2px solid #e0e4f5; border-radius:12px; font-size:1rem; font-family:Nunito,sans-serif; box-sizing:border-box; background:#fff; color:#0d1b4b; cursor:pointer;">
+          <option value="">-- Pick your cartwheel --</option>
+          <option>The Classic Samuella Cartwhele</option>
+          <option>Sideways is the Right Ways</option>
+          <option>Building Your Cartwhele Confidence</option>
+          <option>The Silly Variation™</option>
+          <option>Party Cartwhele Moves</option>
+          <option>Year 6 Special Edition</option>
+          <option>The World Math Day Special</option>
+          <option>The Lush Life Cartwheel</option>
+          <option>The Macarena Cartwheel</option>
+          <option>Party at the Beach Cartwheel</option>
+        </select>
+      </div>
+
+      <div id="form-error" style="display:none; background:#fff0f4; border:1.5px solid #ff4d8b; border-radius:10px; padding:0.6rem 1rem; color:#ff4d8b; font-weight:700; font-size:0.88rem; margin-bottom:1rem;"></div>
+
+      <button onclick="submitBooking()" id="submit-btn" style="width:100%; background:#ff4d8b; color:#fff; font-family:Fredoka One,cursive; font-size:1.15rem; padding:0.9rem; border:none; border-radius:50px; cursor:pointer; box-shadow:4px 4px 0 #0d1b4b;">
+        Send Booking Request &#129336;
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- BOOK CTA -->
+<section class="book-cta" id="book">
+  <h2>Book now with Samuella Cartwhels.</h2>
+  <p>Silly cartwheels you can trust — and right now, £10 off. (£800 off for Year 6!)</p>
+  <button class="btn-primary" onclick="openModal()">Book My Cartwhele &#129336;</button>
+</section>
+
+<script>
+function openModal() {
+  document.getElementById('booking-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('booking-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  document.getElementById('form-success').style.display = 'none';
+  document.getElementById('form-wrap').style.display = 'block';
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-email').value = '';
+  document.getElementById('f-phone').value = '';
+  document.getElementById('f-cartwheel').value = '';
+  document.getElementById('form-error').style.display = 'none';
+  document.getElementById('submit-btn').disabled = false;
+  document.getElementById('submit-btn').textContent = 'Send Booking Request';
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  var navBtn = document.querySelector('.nav-cta');
+  if (navBtn) navBtn.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
+});
+
+async function submitBooking() {
+  var name      = document.getElementById('f-name').value.trim();
+  var email     = document.getElementById('f-email').value.trim();
+  var phone     = document.getElementById('f-phone').value.trim();
+  var cartwheel = document.getElementById('f-cartwheel').value;
+  var err       = document.getElementById('form-error');
+
+  if (!name || !email || !phone) {
+    err.textContent = 'Please fill in all three fields.';
+    err.style.display = 'block';
+    return;
+  }
+  if (!cartwheel) {
+    err.textContent = 'Please select which cartwheel you want.';
+    err.style.display = 'block';
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.textContent = 'Please enter a valid email address.';
+    err.style.display = 'block';
+    return;
+  }
+
+  err.style.display = 'none';
+  var btn = document.getElementById('submit-btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    var res = await fetch('https://formspree.io/f/xnjonapy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        phone: phone,
+        cartwheel: cartwheel,
+        _subject: 'New Booking from ' + name
+      })
+    });
+    if (res.ok) {
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    } else {
+      throw new Error('failed');
+    }
+  } catch(e) {
+    err.textContent = 'Something went wrong. Please try again.';
+    err.style.display = 'block';
+    btn.textContent = 'Send Booking Request';
+    btn.disabled = false;
+  }
+}
+</script>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Samuella Cartwhels</div>
+  <p>© 2026 Samuella Cartwhels Ltd. <span>Silly cartwheels you can trust.</span></p>
+  <p style="color:#4a5a90;font-size:0.8rem;">Terms · Privacy · Refund Policy</p>
+</footer>
+
+</body>
+</html>
